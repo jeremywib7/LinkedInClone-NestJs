@@ -18,7 +18,7 @@ import { FeedModule } from './feed/feed.module';
       autoLoadEntities: true,
       synchronize: true
     }),
-    FeedModule
+    FeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
