@@ -1,15 +1,42 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn
+} from "typeorm";
+import {CommentEntity} from "./comment.entity";
 
 @Entity('feed_post')
-export class FeedPostEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class FeedPostEntity extends BaseEntity {
+  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({default: ''})
-    body: string;
+  @Generated('uuid')
+  @Column()
+  public_id: string;
 
-    @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-    createdAt: Date;
+  @Column({default: ''})
+  body: string;
 
+  @OneToMany(() => CommentEntity, commentEntity => commentEntity.feedPost, {
+    cascade: true
+  })
+  @JoinColumn()
+  comments: CommentEntity[];
+
+  @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+  createdAt: Date;
+
+  @Column({default: ''})
+  updateAt: string;
+
+  addComment(comment: CommentEntity) {
+
+  }
 
 }
